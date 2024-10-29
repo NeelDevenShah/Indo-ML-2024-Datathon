@@ -1,0 +1,82 @@
+1. Multi-Learning Hierarchical Transformer (MLHT) DEBERTA
+
+New\ Transformer\ Experiment\ 12\ embedding\ v20    (Item accuracy: 0.408709873067) (cpu total time: 867.567ms, cuda total time: 205.878 ms, gpu flops during training: 52.0525, inference time: 0.3503 s, inference gpu flops: 2.7820)
+
+2. Multi-Learning Hierarchical Transformer (MLHT) XML-ROBERTA
+
+New\ Transformer\ Experiment\ 12\ emb\ xlm\-roberta\ v17       (Item accuracy: 0.394083308062)    (cpu total time: 793.903ms, cuda total time: 233.707 ms, gpu flops during training: 49.6038, inference time: 0.5456 s, inference gpu flops: 2.0872)
+
+3. Expert-Ensemble Multi-Learning Hierarchical Trans-former (EE-MLHT)
+
+Roberta\-xml\ Expert\ Ensemble\ Architecture\ v10     (Item accuracy: 0.398962439891) (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
+
+4. Multi-Learning Hierarchical Transformer (MLHT) XML-ROBERTA WITH PATHWAY THING
+
+Roberta\ xml\ expert\ Architecture\ hierarchical\ logits (selective pathway trasformer neel, based on tool) (Item accuracy: 0.116032361478)  (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
+
+5. Selective Pathway Transformer Classifier (SPTC)
+
+thesus\ 14\ epochs\ simple\ loss (main selective pathway transformer) (Item accuracy: 0.345432786033) (cpu total time: 995.420ms, cuda total time: 656.425 ms, gpu flops during training: 654.01557, inference time: 0.6291 s, inference gpu flops: 11.92008)
+
+6. Semantic Search-Driven Agentic Classification (SSDAC)
+
+Rag\-based\ new\ one (txtai) (Item accuracy: 0.287462634839)   (cpu total time: NA, cuda total time: NA, gpu flops during training: NA, inference time: 8.6787 s, inference gpu flops: 0.0)
+
+
+=======
+
+3 agents
+
+7. Second Approach: Smart Search-Driven Agentic Classification (SSDAC)
+
+with internet, (no predictions) (inference time: 2.530 s)
+
+
+8.First Approach: Dynamic Description-Driven Agentic Classification (DDAAC)
+
+without internet agent Agent (Item accuracy: 0.2831)  (cpu total time: 16.513ms, cuda total time: Not available, gpu flops during training: 1.02183, inference time: 0.0756 s, inference gpu flops: 0.12772)
+
+9. Third Approach: Hierarchical Option-Based Agentic Classification (HOAC)
+
+hierarchial Agent (Item accuracy: 0.29) (Not available)
+
+
+===================================
+
+
+1. Multi-Learning Hierarchical Transformer (MLHT) DEBERTA
+
+ (Item accuracy: 0.408709873067) (cpu total time: 867.567ms, cuda total time: 205.878 ms, gpu flops during training: 52.0525, inference time: 0.3503 s, inference gpu flops: 2.7820)
+
+2. Multi-Learning Hierarchical Transformer (MLHT) XML-ROBERTA
+
+(Item accuracy: 0.394083308062)    (cpu total time: 793.903ms, cuda total time: 233.707 ms, gpu flops during training: 49.6038, inference time: 0.5456 s, inference gpu flops: 2.0872)
+
+3. Expert-Ensemble Multi-Learning Hierarchical Trans-former (EE-MLHT)
+
+ (Item accuracy: 0.398962439891) (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
+
+4. Multi-Learning Hierarchical Transformer (MLHT) XML-ROBERTA WITH PATHWAY THING
+
+(Item accuracy: 0.116032361478)  (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
+
+5. Selective Pathway Transformer Classifier (SPTC)(main selective pathway transformer) 
+
+(Item accuracy: 0.345432786033) (cpu total time: 995.420ms, cuda total time: 656.425 ms, gpu flops during training: 654.01557, inference time: 0.6291 s, inference gpu flops: 11.92008)
+
+6. Semantic Search-Driven Agentic Classification (SSDAC)
+
+(Item accuracy: 0.287462634839)   (cpu total time: NA, cuda total time: NA, gpu flops during training: NA, inference time: 8.6787 s, inference gpu flops: 0.0)
+
+7. Second Approach: Smart Search-Driven Agentic Classification (SSDAC)
+
+(Item accuracy: NA) (inference time: 2.530 s)
+
+
+8.First Approach: Dynamic Description-Driven Agentic Classification (DDAAC)
+
+(Item accuracy: 0.2831)  (cpu total time: 16.513ms, cuda total time: Not available, gpu flops during training: 1.02183, inference time: 0.0756 s, inference gpu flops: 0.12772)
+
+9. Third Approach: Hierarchical Option-Based Agentic Classification (HOAC)
+
+(Item accuracy: 0.29) (Not available)
