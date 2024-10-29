@@ -1,7 +1,3 @@
-Below is an extended and detailed `README.md` file that goes in-depth into each model and methodological component of the project, as well as the experimental setup, results, and future directions.
-
----
-
 # Attribute-Value Prediction From E-Commerce Product Descriptions
 
 ## Project Overview
@@ -10,9 +6,8 @@ The goal of this project is to automate attribute-value prediction in e-commerce
 
 ### Team and Attribution
 
+- **Team**: ML Mavericks (Top-5 as per the leadboard)
 - **Authors**: Neel Shah, Sneh Shah
-- **Institution**: Charotar University of Science and Technology
-- **Contributors**: Equal contributions from both authors.
 
 ---
 
