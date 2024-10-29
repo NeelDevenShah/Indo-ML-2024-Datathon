@@ -1,0 +1,21 @@
+FROM gcr.io/kaggle-gpu-images/python:latest
+
+# Install additional packages if needed
+RUN apt-get update && apt-get install -y \
+    some-package \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy your application code
+COPY . .
+
+# Install Python dependencies
+RUN pip install -r requirements.txt
+
+# Command to run your application, if want to run the python file, then convert the notebook to the python file
+# CMD ["python", "MLHT-deberta.py"]
+
+# Run the notebook in the interactive mode
+# MLHT-deberta.ipynb # the file with best accuracy

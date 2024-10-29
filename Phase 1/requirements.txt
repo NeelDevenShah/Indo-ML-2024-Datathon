@@ -1,0 +1,7 @@
+torch==2.5.0
+transformers==4.46.0
+scikit-learn==1.5.2
+collection==0.1.6
+numpy==2.1.2
+pandas==2.2.3
+pycopy-copy==3.3.3.post7

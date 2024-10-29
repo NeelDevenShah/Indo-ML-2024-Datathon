@@ -1,0 +1,29 @@
+# Additionally to perform profiler things do install the below dependency
+torch==2.5.0
+
+# For Trasformer based Experiments
+torch==2.5.0
+transformers==4.46.0
+scikit-learn==1.5.2
+pandas==2.2.3
+
+# For SVM Experiment
+scikit-learn==1.5.2
+cupy==13.3.0
+joblib==1.4.2
+transformers==4.46.0
+cuml==0.6.1.post1
+pandas==2.2.3
+
+# For RAG based Experiments
+txtai 7.5.1
+pandas==2.2.3
+
+# For Agentic Expeirments
+ollama==0.3.3
+langchain 0.3.4
+langchain-community==0.3.3
+beautifulsoup4 4.12.3
+http==0.02
+pandas==2.2.3
+json
