@@ -8,7 +8,7 @@ New\ Transformer\ Experiment\ 12\ emb\ xlm\-roberta\ v17       (Item accuracy: 0
 
 3. Expert-Ensemble Multi-Learning Hierarchical Trans-former (EE-MLHT)
 
-Roberta\-xml\ Expert\ Ensemble\ Architecture\ v10     (Item accuracy: 0.398962439891) (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
+Roberta\-xml\ Expert\ Ensemble\ Architecture\ v8     (Item accuracy: 0.373126326734) (cpu total time: 644.858ms, cuda total time: 350.747 ms, gpu flops during training: 412.0799, inference time: 0.62638 s, inference gpu flops: 90.2679)
 
 4. Multi-Learning Hierarchical Transformer (MLHT) XML-ROBERTA WITH PATHWAY THING
 
