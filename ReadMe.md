@@ -122,21 +122,24 @@ This training methodology provided flexibility in resource management while allo
 
 ## Results
 
-### Performance Metrics
+### Performance Metrics of Different Models
 
-The table below summarizes the performance of each model:
-
-| Model                | Item Accuracy | CPU Time (ms) | CUDA Time (ms) | GPU FLOPS (Train) | Inference Time (s) | GPU FLOPS (Infer) |
-| -------------------- | ------------- | ------------- | -------------- | ----------------- | ------------------ | ----------------- |
-| **MLHT (DeBERTa)**   | 0.4087        | 867.567       | 205.878        | 52.0525           | 0.3503             | 2.7820            |
-| **EE-MLHT**          | 0.3990        | 644.858       | 350.747        | 412.0799          | 0.6264             | 90.2679           |
-| **SPTC**             | 0.3454        | 995.420       | 656.425        | 654.0156          | 0.6291             | 11.9201           |
-| **SSDAC (Semantic)** | 0.2875        | NA            | NA             | NA                | 8.6787             | 0.0               |
-| **DDAAC**            | 0.2831        | 16.513        | NA             | 1.0218            | 0.0756             | 0.1277            |
+| Model                            | Item Accuracy | CPU Time (ms) | CUDA Time (ms) | GPU FLOPS (Train) | Inference Time (s) | GPU FLOPS (Infer) |
+| -------------------------------- | ------------- | ------------- | -------------- | ----------------- | ------------------ | ----------------- |
+| **MLHT (DeBERTa) (RL)**          | 0.4112        | 919.646       | 277.029        | 405.7756          | 0.7682             | 0.7820            |
+| **MLHT (DeBERTa) (HC only)**     | 0.4087        | 862.201       | 265.606        | 402.0172          | 0.2501             | 2.7820            |
+| **MLHT (XLM-RoBERTa) (HC only)** | 0.3941        | 1220          | 391.745        | 396.831           | 0.2301             | 2.0872            |
+| **EE-MLHT**                      | 0.3731        | 644.858       | 350.747        | 412.0799          | 0.6264             | 90.2679           |
+| **MLHT (XLM-R Pathway)**         | 0.1160        | 644.858       | 350.747        | 412.0799          | 0.6264             | 90.2679           |
+| **SPTC**                         | 0.3454        | 995.420       | 656.425        | 654.0156          | 0.6291             | 11.9201           |
+| **SSDAC (Semantic)**             | 0.2875        | NA            | NA             | NA                | 8.6787             | NA                |
+| **SSDAC (Google API)**           | NA            | NA            | NA             | NA                | 2.5300             | NA                |
+| **DDAAC (LLM)**                  | 0.2831        | 16.513        | NA             | 1.0218            | 0.0756             | 0.1277            |
+| **HOAC (Hierarchical)**          | 0.2900        | NA            | NA             | NA                | NA                 | NA                |
 
 ### Insights from Results
 
-- **MLHT (DeBERTa)** demonstrated the highest accuracy and inference efficiency, outperforming XLM-RoBERTa in both accuracy and GPU processing time.
+- **MLHT (DeBERTa) (RL)** demonstrated the highest accuracy and inference efficiency, outperforming XLM-RoBERTa in both accuracy and GPU processing time.
 - **EE-MLHT** performed well in difficult-to-classify cases thanks to the integration of knowledge distillation and confidence-weighted ensemble strategies.
 - **Agent-Based Models** (DDAAC and SSDAC) offered increased flexibility in dealing with varied product descriptions,
 

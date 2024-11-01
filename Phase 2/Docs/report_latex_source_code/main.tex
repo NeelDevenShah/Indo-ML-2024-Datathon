@@ -33,7 +33,7 @@
 %----------------------------------------------------------
 
 \author[1,$\dagger$]{Neel Shah\thanks{Email: neeldevenshah.ai@example.com}}
-\author[1,$\dagger$]{Sneh Shah\thanks{Email: 22aiml048@charusat.edu.in}}
+\author[1,$\dagger$]{Sneh Shah\thanks{Email: 22aiml049@charusat.edu.in}}
 
 %----------------------------------------------------------
 
@@ -44,7 +44,7 @@
 % DATES
 %----------------------------------------------------------
 
-\dates{This manuscript was compile on October 28, 2024}
+\dates{This manuscript was compile on October 31, 2024}
 
 %----------------------------------------------------------
 % FOOTER INFORMATION
@@ -54,7 +54,7 @@
 \footinfo{Creative Commons CC BY 4.0}
 % \smalltitle{\LaTeX\ Template}
 \institution{Team ML Mavericks}
-\theday{Oct 28, 2024} %\today
+\theday{Oct 31, 2024} %\today
 
 %----------------------------------------------------------
 % ARTICLE INFORMATION
@@ -77,7 +77,7 @@
 %----------------------------------------------------------
 
 \begin{abstract}
-This study presents a detailed comparative analysis of 5 advanced methodologies for automated attribute prediction in e-commerce catalogs, addressing the challenge of extracting and predicting attribute-value pairs from unstructured product descriptions. Our key contributions include: (1) a Multi-Learning Hierarchical Transformer (MLHT) that integrates supervised, reinforcement, and contrastive learning techniques to model complex relationships across Super Group, Group, Module, and Brand attributes; (2) an Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT) that leverages knowledge distillation and focal loss to handle class imbalance and enhance knowledge transfer between attribute levels; (3) a Selective Pathway Transformer Classifier (SPTC) designed to optimize hierarchical classification pathways; (4) a series of agentic models, including the Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC), which simulate human-like reasoning in attribute classification; and (5) a Semantic Search-Driven Agentic Classification (SSDAC) model for enhancing classification accuracy via semantic similarity. Experimental evaluations across a diverse dataset reveal the strengths and unique advantages of each approach. This comprehensive study provides critical insights into combining multiple learning paradigms to address hierarchical classification complexities in e-commerce, with detailed implementation strategies included in the technical report.
+This study presents a detailed comparative analysis of five advanced methodologies for automated attribute prediction in e-commerce catalogs, addressing the challenge of extracting and predicting attribute-value pairs from unstructured product descriptions. Our key contributions include: (1) a Multi-Learning Hierarchical Transformer (MLHT) that integrates supervised, reinforcement, and contrastive learning techniques to model complex relationships across Super Group, Group, Module, and Brand attributes; (2) an Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT) that leverages knowledge distillation and focal loss to handle class imbalance and enhance knowledge transfer between attribute levels; (3) a Selective Pathway Transformer Classifier (SPTC) designed to optimize hierarchical classification pathways; (4) a series of agentic models, including the Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC), which simulate human-like reasoning in attribute classification; and (5) a Semantic Search-Driven Agentic Classification (SSDAC) model for enhancing classification accuracy via semantic similarity. Although we have made efforts to achieve the best possible results, computational limitations have prevented the models from being trained to full convergence. This leaves potential for further optimization and convergence under higher computational resources. Experimental evaluations across a diverse dataset reveal the strengths and unique advantages of each approach. This comprehensive study provides critical insights into combining multiple learning paradigms to address hierarchical classification complexities in e-commerce, with detailed implementation strategies included in the technical report.
 
 \end{abstract}
 
@@ -110,7 +110,7 @@ This study presents a detailed comparative analysis of 5 advanced methodologies 
     
     This comprehensive approach not only addresses the immediate challenges of attribute prediction but also contributes to the broader field of hierarchical text classification and knowledge extraction. Our research has significant implications for e-commerce platforms seeking to automate product categorization processes while maintaining high accuracy and adaptability to new products and categories.
     
-    The remainder of this paper is organized as follows: Section 2 provides an overview of the Multi-Learning Hierarchical Transformer (MLHT). Section 3 describes the Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT). Section 4 introduces the Selective Pathway Transformer Classifier (SPTC). Section 5 discusses the agent-based approaches, including the Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC). Section 6 introduces the Semantic Search-Driven Agentic Classification (SSDAC). Finally, Section 7 concludes with key findings and future research directions.
+    The remainder of this paper is organized as follows: Section 2 provides an overview of the Multi-Learning Hierarchical Transformer (MLHT). Section 3 describes the Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT). Section 4 introduces the Selective Pathway Transformer Classifier (SPTC). Section 5 discusses the agent-based approaches, including the Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC). Section 6 introduces the Semantic Search-Driven Agentic Classification (SSDAC). Section 7 details the Experimental Infrastructure and Training Strategy. Section 8 highlights key Learnings and Insights. Finally, Section 9 concludes with key findings and future research directions.
 
 \section{Multi-Learning Hierarchical Transformer (MLHT)}
 
@@ -275,7 +275,7 @@ P_l = \{ P_{l,1}, \ldots, P_{l,k} \}
 denote the prototypes for level \( l \), where each \( P_{l,i} \) is the average embedding for class \( i \) at level \( l \). The distance between the hidden representation \( H \) and prototype \( P_{l,i} \) is calculated as:
 
 \[ \label{eq:distance_prototype}
-d(H, P_{l,i}) = -\| H - P_{l,i} \|_2
+L_{\text{FS}} = -\| H - P_{l,i} \|_2
 \]
 
 The negative distance acts as logits in a few-shot setting, where predictions are based on the closest prototype.
@@ -287,23 +287,14 @@ The model’s training objective includes multiple loss terms, with the primary 
 The objective for each level \( l \) is defined as:
 
 \[ \label{eq:level_loss}
-L(l) = L_{\text{CE}}(l) + \lambda L_{\text{contrastive}}(l) + \alpha L_{\text{RL}}(l)
+L(l) = L_{\text{CE}}(l) + L_{\text{contrastive}}(l) + L_{\text{RL}}(l) + L_{\text{FS}}(l)
 \]
-
-where:
-\begin{itemize}
-    \item \( \lambda \) and \( \alpha \) are hyperparameters that control the contribution of each component.
-    \item \( L_{\text{CE}}(l) \): Cross-entropy loss for level \( l \),
-    \item \( L_{\text{contrastive}}(l) \): Contrastive loss for separation in embedding space,
-    \item \( L_{\text{RL}}(l) \): Reinforcement learning-based policy loss for level \( l \).
-\end{itemize}
 
 The total loss is the summation across levels:
 
 \[ \label{eq:total_loss}
 L_{\text{total}} = \sum_{l=1}^{4} L(l)
 \]
-
         
     \subsection{Data Preprocessing and Dataset Organization}
 
@@ -313,13 +304,15 @@ The core of our data handling is implemented through a custom \verb|ProductDatas
 
     \subsection{Results and Ablation Studies}
 
-       The Multi-Learning Hierarchical Transformer (MLHT) was evaluated over an extensive training period, running for more than 280+ epochs. Initially, the model training mistakenly included a concatenated input of "description + retailer" (without spacing) as the input feature. This oversight impacted the model's early learning dynamics, as the unspaced combination introduced noise and confused the feature representation. After approximately 100 epochs, we corrected this input, switching to "description only" for a cleaner, more focused dataset. Two backbone experiments were then conducted: one using DeBERTa and the other using XLM-RoBERTa, to evaluate which architecture would better capture the complexities of hierarchical classification.
+       The Multi-Learning Hierarchical Transformer (MLHT) was evaluated over an extensive training period of more than 280 epochs, primarily utilizing the DeBERTa backbone model. Initially, a concatenated input of "description + retailer" (without spacing) was mistakenly used as the input feature, which impacted the model’s early learning dynamics due to the noise introduced by the unspaced combination. After around 100 epochs, this input was revised to "description only," resulting in a cleaner dataset and significantly improving feature clarity and overall accuracy.
 
-        The DeBERTa model performed slightly better in both item accuracy and efficiency metrics, achieving an item accuracy of 0.4087, with a total CPU processing time of 867.567 ms and a CUDA processing time of 205.878 ms. Its training GPU FLOPS were measured at 52.0525, while inference time per item was 0.3503 seconds with GPU FLOPS at 2.7820. On the other hand, the XLM-RoBERTa model attained a slightly lower item accuracy of 0.3941, alongside a total CPU time of 793.903 ms and a CUDA time of 233.707 ms. The training GPU FLOPS for XLM-RoBERTa stood at 49.6038, and its inference time per item was comparatively slower at 0.5456 seconds, with inference GPU FLOPS at 2.0872. Given these results, DeBERTa was identified as the preferred backbone due to its superior accuracy and faster inference.
+        In the main experiment with MLHT on the DeBERTa backbone, all loss components—including supervised, reinforcement, and contrastive—were integrated to capture complex relationships across hierarchical attributes like Super Group, Group, Module, and Brand. This configuration of MLHT with DeBERTa achieved an item accuracy of 0.4112, with CPU processing time at 919.646 ms and CUDA processing time at 277.029 ms. The training GPU FLOPS were recorded at 405.77, while inference per item took 0.7682 seconds with inference GPU FLOPS at 0.7820, demonstrating strong performance with full multi-learning integration.
         
-        In our ablation studies, we examined the effects of different input feature combinations on model performance. Using only the product description as the input feature yielded the highest accuracy, supporting this approach as our main model configuration. Including "description + retailer" (without space) led to reduced accuracy and overfitting in early epochs, likely due to the lack of clear feature separation. When the input was adjusted to "description + retailer" (with spacing), the model still did not perform as well as when using only descriptions, indicating that retailer information added noise rather than value to the model.
+        Following this, two additional experiments were conducted to assess the impact of using hierarchical classifiers exclusively with each backbone model, isolating the hierarchical classification capability from the full MLHT setup. 
         
-        These findings underscore the importance of input feature selection, with "description only" providing the clearest, most accurate data representation for hierarchical classification. This approach enabled MLHT to achieve the best item accuracy while minimizing interference from extraneous features.
+        The first experiment used the DeBERTa backbone with only hierarchical classifiers (excluding reinforcement and contrastive losses), achieved an item accuracy of 0.4087. This setup had a CPU time of 862.201 ms, a CUDA time of 265.606 ms, and training GPU FLOPS of 402.0172. Its inference per item took 0.2601 seconds, with inference GPU FLOPS at 2.7820. The second experiment evaluated XLM-RoBERTa with hierarchical classifiers only, which achieved an item accuracy of 0.3941. This setup had a CPU time of 1.202 s, a CUDA time of 391.745 ms, and training GPU FLOPS of 396.831. Its inference per item took 2.7820 seconds, with inference GPU FLOPS at 2.0872.
+        
+        This comparative analysis highlights DeBERTa as the main backbone for MLHT with the full multi-learning configuration, and its results suggest that DeBERTa provides competitive performance even with hierarchical classifiers alone. Additionally, ablation studies indicated that "description only" as the input consistently outperformed configurations that included "description + retailer," supporting this as the optimal feature selection for hierarchical classification.
 
 \section{Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT)}
 
@@ -456,7 +449,7 @@ This ensemble approach balances confidence in the main prediction against the re
  
  \subsection{Results and Ablation Studies}
     
-    The Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT) was tested across several configurations, with the "description only" input proving to be the most effective. This configuration yielded the best item accuracy of 0.3989, achieving a total CPU time of 644.858 ms, CUDA time of 350.747 ms, GPU FLOPS during training at 412.0799, inference time per item of 0.62638 seconds, and inference GPU FLOPS at 90.2679. The "description only" approach allowed the model to maximize item accuracy by reducing noise, outperforming alternatives with additional features.
+    The Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT) was tested across several configurations, with the "description only" input proving to be the most effective. This configuration yielded the best item accuracy of 0.3731, achieving a total CPU time of 644.858 ms, CUDA time of 350.747 ms, GPU FLOPS during training at 412.0799, inference time per item of 0.62638 seconds, and inference GPU FLOPS at 90.2679. The "description only" approach allowed the model to maximize item accuracy by reducing noise, outperforming alternatives with additional features.
     
     Two additional experiments were conducted. First, a "description + space + retailer" setup, which included retailer information, performed worse than the "description only" configuration. The added complexity from retailer data detracted from accuracy, confirming that streamlined inputs were optimal.
     
@@ -661,7 +654,7 @@ Finally, the Hierarchical Option-Based Approach, tested as the Hierarchical Opti
     
     Our training methodology leveraged Kaggle's P100 GPU infrastructure through an iterative approach. The training process was systematically divided into 12-hour sessions to optimize the platform's weekly GPU quota of 30 hours. Between sessions, model weights were preserved and reloaded, ensuring training continuity. This process was iterated 10-15 times (with some of the best models trained on the description + retailer (without space), and then they were replaced with only description as this was a mistake), allowing for comprehensive model exploration and optimization. The approach proved particularly effective in identifying the optimal model state, striking a balance between underfitting and overfitting scenarios. An
     
-    The implementation was built on a foundation of modern deep learning frameworks, primarily utilizing the Transformers library by Hugging Face and PyTorch. The training infrastructure required specific computational resources: NVIDIA Tesla P100 GPUs with 15GB GPU RAM and approximately 30GB CPU RAM, which aligned with Kaggle's provided environment. The Docker file used to replicate our results is \texttt{gcr.io/kaggle-gpu-images/python}.This setup enabled efficient batch processing and model optimization while working within platform constraints.
+    The implementation was built on a foundation of modern deep learning frameworks, primarily utilizing the transformers library by hugging face and PyTorch. The training infrastructure required specific computational resources: NVIDIA Tesla P100 GPUs with 15GB GPU RAM and approximately 30GB CPU RAM, which aligned with Kaggle's provided environment. The docker file that can be used to replicate our results is \texttt{gcr.io/kaggle-gpu-images/python}. This setup enabled efficient batch processing and model optimization while working within platform constraints.
 
     Our sequential training strategy not only addressed the platform's computational limitations but also provided additional benefits for model development. The intermediate checkpoints allowed for careful monitoring of model convergence and performance metrics, enabling timely interventions in the training process when necessary. This methodical approach to training management proved crucial in developing robust models for the complex task of hierarchical product classification.
 
@@ -679,8 +672,8 @@ This datathon offered valuable insights and challenges, allowing us to test vari
     \item Challenges in Scaling Agentic Approaches: 
     Our exploration of agent-based methods, especially internet-connected agents, was promising but limited by scalability challenges. We believe that fully deploying this approach could significantly improve accuracy, though it underscored the importance of scaling in multi-agent architectures.
 
-    \item Model Size and Computational Limits
-    \item Constrained to base models with 8 billion parameters, we noted that access to larger models (up to 40 billion parameters) might have boosted accuracy, underscoring the impact of computational resources on model performance in deep learning tasks.
+    \item Model Size and Computational Limits: 
+    Constrained to base models with 8 billion parameters, we noted that access to larger models (up to 40 billion parameters) might have boosted accuracy, underscoring the impact of computational resources on model performance in deep learning tasks.
     
     \item Technical and Process Insights: 
     The datathon exposed us to advanced techniques like extreme classification. Additionally, we found that fine-tuning even pre-trained models, especially on similar datasets, enhanced performance, emphasizing the benefits of custom training.
@@ -690,18 +683,14 @@ This datathon offered valuable insights and challenges, allowing us to test vari
 In summary, this datathon strengthened our technical skills, expanded our knowledge of scalable classification models, and highlighted the power of resilience and continuous learning in competitive settings.
 
 \section{Conclusion}
-In this study, we evaluated several advanced methodologies for automated attribute prediction in e-commerce, with each approach contributing to overall item accuracy based on its order in the classification hierarchy, All the results are shown in the Table 1. The Multi-Learning Hierarchical Transformer (MLHT) achieved the highest item accuracy, narrowly outperforming the Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT). Although the difference between MLHT and EE-MLHT was minimal, MLHT ultimately demonstrated superior performance, proving most effective for capturing complex hierarchical relationships in product attributes.
+In this study, we evaluated several advanced methodologies for automated attribute prediction in e-commerce, with each approach contributing to overall item accuracy based on its order in the classification hierarchy. All the results are shown in Table 1. The Multi-Learning Hierarchical Transformer (MLHT) achieved the highest item accuracy, narrowly outperforming the Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT). Although the difference between MLHT and EE-MLHT was minimal, MLHT ultimately demonstrated superior performance, proving most effective for capturing complex hierarchical relationships in product attributes. Following these, the Selective Pathway Transformer Classifier (SPTC) delivered solid results, optimizing accuracy through constraint-based pathways that enhance classification efficiency at distinct attribute levels.
 
-Following these, the Selective Pathway Transformer Classifier (SPTC) delivered solid results, optimizing accuracy through constraint-based pathways that enhance classification efficiency at distinct attribute levels.
+The agent-based approaches—Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC)—provided innovative strategies for handling dynamic product descriptions, with item accuracy reflecting adaptability across different retrieval conditions. Finally, the Semantic Search-Driven Agentic Classification (SSDAC) model, while slightly lower in item accuracy compared to the earlier models, demonstrated value in situations where semantic context was essential.
 
-The agent-based approaches—Description Generation Agent (DDAAC), Smart Search-Driven Agentic Classification (SSDAC), and Hierarchical Option-Based Agentic Classification (HOAC)—provided innovative strategies for handling dynamic product descriptions, with item accuracy reflecting adaptability across different retrieval conditions.
-
-Finally, the Semantic Search-Driven Agentic Classification (SSDAC) model, while slightly lower in item accuracy compared to the earlier models, demonstrated value in situations where semantic context was essential.
-
-This structured approach, with item accuracy as the core metric, allowed each method to contribute meaningfully, with earlier models yielding consistently higher accuracy. Our findings underscore the effectiveness of combining diverse learning paradigms in a tiered framework, offering a scalable solution for hierarchical classification challenges in e-commerce. Ultimately, this approach not only advances current capabilities but also sets a foundation for future innovations in automated, high-accuracy attribute prediction.
+Although we aimed to achieve the best possible results, computational limitations prevented some models from being trained to their optimal points, indicating a potential for further convergence with additional resources. This structured approach, with item accuracy as the core metric, allowed each method to contribute meaningfully, with earlier models yielding consistently higher accuracy. Our findings underscore the effectiveness of combining diverse learning paradigms in a tiered framework, offering a scalable solution for hierarchical classification challenges in e-commerce. Ultimately, this approach not only advances current capabilities but also sets a foundation for future innovations in automated, high-accuracy attribute prediction.
 
 \section{Acknowledgement}
-We would like to express my gratitude to the IndoML 2024 team for providing an exceptional experience during the datathon. We also appreciate Kaggle for providing free GPU resources, which significantly enhanced our experimentation and model training efforts. Additionally, our gratitude goes to NielsenIQ for sponsoring such an outstanding datathon, fostering innovation and collaboration in the field.
+We would like to extend our heartfelt gratitude to the IndoML 2024 team (especially Rajdeep Mukherjee, Shubhadip Nag, and Soumi Das for their motivating support) for providing an exceptional experience during the datathon. We also appreciate Kaggle for offering free GPU resources, which greatly enhanced our experimentation and model training efforts. Additionally, we thank NielsenIQ for sponsoring this outstanding datathon, fostering innovation and collaboration in the field.
 
     \begin{table}[h!]
     \RaggedRight
@@ -713,11 +702,12 @@ We would like to express my gratitude to the IndoML 2024 team for providing an e
     \hline
     \textbf{Model} & \textbf{Item Accuracy} & \textbf{CPU Time (ms)} & \textbf{CUDA Time (ms)} & \textbf{GPU FLOPS (Train)} & \textbf{Inference Time (s)} & \textbf{GPU FLOPS (Infer)} \\
     \hline
-    MLHT (DeBERTa) & 0.4087 & 867.567 & 205.878 & 52.0525 & 0.3503 & 2.7820 \\
-    MLHT (XLM-RoBERTa) & 0.3941 & 793.903 & 233.707 & 49.6038 & 0.5456 & 2.0872 \\
-    EE-MLHT & 0.3990 & 644.858 & 350.747 & 412.0799 & 0.6264 & 90.2679 \\
-    MLHT (XLM-R Pathway) & 0.1160 & 644.858 & 350.747 & 412.0799 & 0.6264 & 90.2679 \\
-    SPTC (Main) & 0.3454 & 995.420 & 656.425 & 654.0156 & 0.6291 & 11.9201 \\
+    MLHT (DeBERTa) (RL) & 0.4112 & 919.646 & 277.029 & 405.7756 & 0.7682 & 0.7820 \\
+    MLHT (DeBERTa) (HC only) & 0.4087 & 862.201 & 265.606 & 402.0172 & 0.2501 & 2.7820 \\
+    MLHT (XLM-RoBERTa) (HC only) & 0.3941 & 1.220 (s) & 391.745 & 396.831 & 0.2301 & 2.0872 \\
+    EE-MLHT & 0.3731 & 644.858 & 350.747 & 412.0799 & 0.6264 & 90.2679 \\
+    MLHT (XLM-R Pathway)* & 0.1160 & 644.858 & 350.747 & 412.0799 & 0.6264 & 90.2679 \\
+    SPTC & 0.3454 & 995.420 & 656.425 & 654.0156 & 0.6291 & 11.9201 \\
     SSDAC (Semantic) & 0.2875 & NA & NA & NA & 8.6787 & 0.0 \\
     SSDAC (Google API) & NA & NA & NA & NA & 2.5300 & NA \\
     DDAAC (LLM) & 0.2831 & 16.513 & NA & 1.0218 & 0.0756 & 0.1277 \\
