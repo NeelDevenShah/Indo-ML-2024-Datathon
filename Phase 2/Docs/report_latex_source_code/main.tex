@@ -14,6 +14,9 @@
 
 \documentclass[9pt,a4paper,twoside]{rho-class/rho}
 \usepackage[english]{babel}
+\usepackage{biblatex} % Alternative package if needed
+\addbibresource{references.bib} % Specify the .bib file
+
 
 %% Spanish babel recomendation
 % \usepackage[spanish,es-nodecimaldot,es-noindentfirst]{babel}
@@ -44,7 +47,7 @@
 % DATES
 %----------------------------------------------------------
 
-\dates{This manuscript was compile on October 31, 2024}
+\dates{This manuscript was compile on November 3, 2024}
 
 %----------------------------------------------------------
 % FOOTER INFORMATION
@@ -54,7 +57,7 @@
 \footinfo{Creative Commons CC BY 4.0}
 % \smalltitle{\LaTeX\ Template}
 \institution{Team ML Mavericks}
-\theday{Oct 31, 2024} %\today
+\theday{Nov 3, 2024} %\today
 
 %----------------------------------------------------------
 % ARTICLE INFORMATION
@@ -100,9 +103,9 @@ This study presents a detailed comparative analysis of five advanced methodologi
 
     \rhostart{T}he explosive growth of e-commerce has fundamentally transformed the retail landscape, with major platforms now managing vast catalogs containing billions of products. This scale presents a significant challenge in maintaining structured product metadata, particularly attribute-value pairs, which are crucial for various downstream applications. While product descriptions are readily available from receipts, invoices, and seller submissions, converting this unstructured text into standardized attribute-value pairs remains a complex challenge that impacts search relevance, recommendation systems, and overall customer experience.
 
-    Automated attribute prediction in e-commerce is especially challenging due to several inherent complexities. First, the hierarchical nature of product categorization, spanning from broad Super Groups down to specific Brands, requires models to understand both macro-level category relationships and micro-level product distinctions. Second, the dynamic nature of e-commerce means that new products, brands, and categories emerge continuously, necessitating models that can handle previously unseen values. Third, the variation in product description quality and format across different retailers adds another layer of complexity to the extraction process.
+    Automated attribute prediction in e-commerce is especially challenging due to several inherent complexities. First, the hierarchical nature of product categorization, spanning from broad Super Groups down to specific Brands, requires models to understand both macro-level category relationships and micro-level product distinctions \cite{harshika2017approach}. Second, the dynamic nature of e-commerce means that new products, brands, and categories emerge continuously, necessitating models that can handle previously unseen values. Third, the variation in product description quality and format across different retailers adds another layer of complexity to the extraction process.
     
-    Previous approaches to this problem have often struggled to capture the hierarchical structure of attributes and the need for both broad category understanding and fine-grained distinction. Moreover, they frequently lack the adaptability to leverage knowledge relationships across different attribute levels, limiting their ability to manage new product categories and brands.
+    Previous approaches to this problem have often struggled to capture the hierarchical structure of attributes and the need for both broad category understanding and fine-grained distinction \cite{harshika2017approach}, \cite{trietsch2016product}. Moreover, they frequently lack the adaptability to leverage knowledge relationships across different attribute levels, limiting their ability to manage new product categories and brands.
     
     Our research addresses these limitations through a multi-faceted approach that combines five distinct methodological frameworks. The cornerstone of our work is an advanced hierarchical classifier that integrates supervised, reinforcement, and contrastive learning techniques to capture complex relationships between attribute levels. This is complemented by an ensemble of expert classifiers that employ knowledge distillation and focal loss to tackle the inherent challenges of hierarchical classification.
     
@@ -119,7 +122,7 @@ This study presents a detailed comparative analysis of five advanced methodologi
 
     \subsection{\textbf{Rationale for backbone 1: Pre-Trained DeBERTa Model}}
 
-        The disentangled attention mechanism is a key innovation in DeBERTa, designed to separate content and positional information for each word. Traditional models like BERT and RoBERTa combine content and position into a single vector, limiting the model’s ability to capture nuanced relationships. In contrast, DeBERTa represents each word with two distinct vectors:
+        The disentangled attention mechanism is a key innovation in DeBERTa, designed to separate content and positional information for each word \cite{he2020deberta}. Traditional models like BERT and RoBERTa combine content and position into a single vector, limiting the model’s ability to capture nuanced relationships. In contrast, DeBERTa represents each word with two distinct vectors:
 
 \begin{itemize}
     \item Content Vector: Encodes the semantic meaning of the word, capturing nuances and relationships relevant to understanding the text.
@@ -130,7 +133,7 @@ By separating these two components, DeBERTa enhances its attention mechanism. Th
 
     \subsection{\textbf{Rationale for backbone 2: Pre-Trained XLM-RoBERTa Model}}
 
-        XLM-RoBERTa builds upon the RoBERTa architecture, leveraging advancements for robust cross-lingual performance. Key architectural features include:
+        XLM-RoBERTa builds upon the RoBERTa architecture, leveraging advancements for robust cross-lingual performance. Key architectural features include \cite{li2021cross}:
 
 \begin{itemize}
     \item \textbf{Transformer Layers}: XLM-RoBERTa incorporates multiple transformer layers, each containing self-attention mechanisms and feed-forward networks. This structure enables the model to effectively capture both local and global dependencies within the input text.
@@ -141,7 +144,7 @@ By separating these two components, DeBERTa enhances its attention mechanism. Th
 
       \subsection{Hierarchical Classifiers}
 
-        The model performs classification across four hierarchical levels: supergroup, group, module, and brand. For each level, a fully connected classifier is used with input features combining the hidden states and softmax-normalized logits from the previous level’s output. This cascading input strategy helps preserve hierarchical dependencies, making higher levels aware of lower-level information.
+        The model performs classification across four hierarchical levels: supergroup, group, module, and brand. For each level, a fully connected classifier is used with input features combining the hidden states and softmax-normalized logits from the previous level’s output \cite{mohammed2018effectiveness}. This cascading input strategy helps preserve hierarchical dependencies, making higher levels aware of lower-level information.
 
 \begin{itemize}
     \item \textbf{Supergroup Classifier}: Takes H as input.
@@ -214,7 +217,7 @@ The cascading design helps each classifier layer utilize refined information fro
 
 Reinforcement learning (RL) policies are introduced for each hierarchical level to allow the model to make probabilistic decisions, enhancing its flexibility and potential real-time adaptability.
 
-Each RL policy network \( \pi_l \) outputs a probability distribution over actions (possible classes) for the \( l \)-th level. These outputs can be interpreted as logits sampled according to an RL policy:
+Each RL policy network \( \pi_l \) outputs a probability distribution over actions (possible classes) for the \( l \)-th level. These outputs can be interpreted as logits sampled according to an RL policy \cite{barto2021reinforcement}, \cite{mohammed2018effectiveness}:
 
 \[ \label{eq:policy_output}
 \pi_l(a \mid s) = \frac{\exp(\text{Logits}_{l,a})}{\sum_{j} \exp(\text{Logits}_{l,j})}
@@ -230,55 +233,69 @@ R_l = 1(y^l = y_l)
 
 where \( y^l \) is the predicted class, and \( y_l \) is the true class label. This binary reward incentivizes accurate predictions and helps calibrate the model’s probabilistic outputs.
 
-             \subsection{Contrastive Learning via Projection Head}
+\subsection{Contrastive Learning via Projection Head}
 
-To improve feature space separation, we apply a contrastive learning loss through a two-layer projection head. This head maps \( H \) to a lower-dimensional space suitable for contrastive learning, with a focus on increasing inter-class separation and intra-class compactness.
+To enhance feature separation, we contrastive learning using a projection head. This head maps the embedding \( H \) to a lower-dimensional space optimized for contrastive learning. The primary goals are to improve inter-class separation and maintain intra-class compactness, ensuring that samples from the same class remain close together in the embedding space while pushing apart samples from different classes \cite{liu2021self}, \cite{kim2020adversarial}.
 
-The projection head consists of two layers:
+The projection head consists of two sequential fully connected layers, which transform the initial embedding \( H \) as follows:
 
-The first layer is a fully connected layer followed by a ReLU activation:
+\paragraph{First Layer}
+The first layer applies a fully connected transformation with ReLU activation:
 
-\[ \label{eq:first_layer}
+\[
 z_1 = \text{ReLU}(W_1 \cdot H + b_1)
 \]
 
-where \( W_1 \) and \( b_1 \) are weights and bias terms, and \( z_1 \in \mathbb{R}^{d'} \), where \( d' < d \). 
+where \( W_1 \) and \( b_1 \) are the weights and bias, respectively. Here, \( z_1 \in \mathbb{R}^{d'} \), with \( d' < d \), where \( d \) is the dimensionality of \( H \). This layer reduces dimensionality and allows non-linear transformations for better separation of similar samples.
 
-The second layer reduces the dimensionality further:
+\paragraph{Second Layer}
+The second layer further reduces dimensionality to fit the requirements of contrastive learning:
 
-\[ \label{eq:second_layer}
+\[
 z_2 = W_2 \cdot z_1 + b_2
 \]
 
-where \( z_2 \in \mathbb{R}^{128} \). 
+where \( z_2 \in \mathbb{R}^{128} \), representing the final projection used for contrastive learning.
 
-The projection output \( z_2 \) is used to calculate a contrastive loss. For two samples with projections \( z_2(i) \) and \( z_2(j) \), the contrastive loss is defined as:
+\paragraph{Contrastive Loss}
+The projection \( z_2 \) is used in a contrastive loss function to enforce proximity of related samples while repelling unrelated ones. Given projections \( z_2(i) \) and \( z_2(j) \) for two positive (related) samples, the contrastive loss is defined as:
 
-\[ \label{eq:contrastive_loss}
+\[
 L_{\text{contrastive}} = -\log\left(\frac{\exp\left(\text{sim}(z_2(i), z_2(j)) / \tau\right)}{\sum_{k \neq i} \exp\left(\text{sim}(z_2(i), z_2(k)) / \tau\right)}\right)
 \]
 
-where \( \text{sim} \) is the cosine similarity, and \( \tau \) is a temperature parameter that controls the separation tightness.
+where \( \text{sim} \) denotes cosine similarity, and \( \tau \) is a temperature parameter controlling separation strength.
 
-Example Calculation: Suppose we have two samples belonging to the same supergroup but different brands. Through contrastive learning, we train the model to map samples from the same supergroup closer in the embedding space while pushing apart samples from different brands.
+\paragraph{Example and Absence of Anchors}
+Typically, contrastive learning requires a positive pair (similar samples) and may include negative samples. In this approach, however, we do not employ traditional anchor-positive-negative triples. Instead, all samples in the batch are potential comparators, using \( z_2(i) \) as a query compared against all other embeddings \( z_2(k) \). This approach, which avoids predefined anchors, provides flexibility by dynamically choosing sample relationships in the batch and thus reduces dependency on predefined anchor identities. The batch-wise comparison creates a more generalized embedding space, where each sample’s proximity to others defines the representation, and temperature \( \tau \) controls the spread across classes.
 
-    \subsection{Few-Shot Learning with Prototypes}
+For instance, if two samples belong to the same supergroup but different brands, contrastive learning pulls them closer in the supergroup space, while other brands are encouraged to be more distinct, creating a hierarchical structure in the learned representations.
 
-Few-shot learning is integrated using prototype-based distances. This method addresses cases where certain classes have very few samples by creating prototype vectors, which serve as idealized class representations.
+\subsection{Few-Shot Learning with Prototypes}
 
-Let 
+In scenarios where classes have few samples, we use prototype-based few-shot learning to represent each class by a prototype vector, or "centroid," in the embedding space. This approach, known as Prototypical Networks, is effective for handling sparse class samples by generalizing from a small support set \cite{snell2017prototypical}.
+
+\paragraph{Prototype Definition}
+For each class at a specific hierarchical level \( l \), we define a prototype \( P_{l,i} \) as the centroid of all available samples for that class. This prototype serves as the idealized representation for the class and is computed as the mean of the embeddings of its samples. Formally, for each level \( l \):
 
 \[
 P_l = \{ P_{l,1}, \ldots, P_{l,k} \}
 \]
 
-denote the prototypes for level \( l \), where each \( P_{l,i} \) is the average embedding for class \( i \) at level \( l \). The distance between the hidden representation \( H \) and prototype \( P_{l,i} \) is calculated as:
+where \( P_{l,i} \) represents the prototype of class \( i \) at level \( l \), calculated as the average of its sample embeddings.
 
-\[ \label{eq:distance_prototype}
+\paragraph{Classification Using Prototype Distances}
+When a query sample with hidden representation \( H \) needs to be classified, the model computes its distance to each prototype \( P_{l,i} \) within the relevant level \( l \). The classification is based on the nearest prototype, with the distance serving as a negative logit in the few-shot classification:
+
+\[
 L_{\text{FS}} = -\| H - P_{l,i} \|_2
 \]
 
-The negative distance acts as logits in a few-shot setting, where predictions are based on the closest prototype.
+The model thus assigns the query sample to the class with the closest prototype. Using negative distance as logits aligns with the goal of bringing related samples closer to their class prototype, making it easier to classify even in low-data settings.
+
+\paragraph{Advantage of Prototypical Networks in Few-Shot Scenarios}
+Prototypical Networks enable the model to adapt to new classes quickly, as adding a new class requires only computing an additional prototype. This flexibility is especially useful in hierarchical settings where different classification levels (e.g., supergroup, group, module, brand) require prototypes to capture similarities within each level. As classes expand, prototypes provide an efficient mechanism for hierarchical classification without extensive retraining, making this approach particularly suitable for real-world, few-shot applications.
+
         
     \subsection{Joint Training and Multi-Objective Loss}
 
@@ -287,14 +304,10 @@ The model’s training objective includes multiple loss terms, with the primary 
 The objective for each level \( l \) is defined as:
 
 \[ \label{eq:level_loss}
-L(l) = L_{\text{CE}}(l) + L_{\text{contrastive}}(l) + L_{\text{RL}}(l) + L_{\text{FS}}(l)
+L(l) = \sum_{l} \lambda_1 L_{CE, l} + \lambda_2 L_{contrastive, l} + \lambda_3 L_{RL, l} + \lambda_4 L_{FS, l}
 \]
 
-The total loss is the summation across levels:
-
-\[ \label{eq:total_loss}
-L_{\text{total}} = \sum_{l=1}^{4} L(l)
-\]
+Here, \( \lambda_1, \lambda_2, \lambda_3, \lambda_4 \) are hyperparameters that balance the contributions of each loss component.
         
     \subsection{Data Preprocessing and Dataset Organization}
 
@@ -316,7 +329,7 @@ The core of our data handling is implemented through a custom \verb|ProductDatas
 
 \section{Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT)}
 
-To further boost classification accuracy, an ensemble of expert classifiers is introduced at each hierarchy level. Each expert classifier specializes in a particular category level (supergroup, group, module, brand) and these classifiers operate alongside a main classifier and contribute additional predictions through various techniques:
+To further boost classification accuracy, an ensemble of expert classifiers is introduced at each hierarchy level. Each expert classifier specializes in a particular category level (supergroup, group, module, brand) and these classifiers operate alongside a main classifier and contribute additional predictions through various techniques \cite{park2019feed}:
 
  \subsection{Expert Classifiers}
     
@@ -344,31 +357,35 @@ To further boost classification accuracy, an ensemble of expert classifiers is i
    L_{KD,l} = KL\left(p_{M_l} \| p_{E_l}\right) = \sum_{c} p_{M_l}(c) \log\left(\frac{p_{M_l}(c)}{p_{E_l}(c)}\right)
    \]
 
- \subsection{Focal Loss for Hard Examples}
-    
-        To emphasize learning from challenging examples, we use focal loss to scale the cross-entropy loss, focusing on hard-to-classify instances. 
+\subsection{Focal Loss for Hard Examples}
 
-   The one-hot encoded ground truth label for class \( c \) at level \( l \) is denoted as \( y_{l,c} \), while \( \hat{y}_{l,c} \) represents the predicted probability. The Focal Loss for level \( l \) is given by:
+In hierarchical classification tasks, the model may encounter examples that are difficult to classify accurately, especially in lower levels of the hierarchy. To focus learning on these challenging cases, we utilize focal loss \cite{ross2017focal}. Focal loss scales the standard cross-entropy loss to emphasize hard-to-classify instances, reducing the influence of easy examples. 
 
-   \[
-   L_{\text{focal},l} = -\sum_{c} y_{l,c} (1 - \hat{y}_{l,c})^\gamma \log(\hat{y}_{l,c})
-   \]
+The one-hot encoded ground truth label for class \(c\) at level \(l\) is denoted as \( y_{l,c} \), and \( \hat{y}_{l,c} \) is the predicted probability. The Focal Loss for level \(l\) is defined as:
 
-   Here, \( \gamma \) is the focusing parameter that increases emphasis on misclassified instances.
+\[
+L_{\text{focal}, l} = - \sum_{c} y_{l,c} (1 - \hat{y}_{l,c})^{\gamma} \log(\hat{y}_{l,c})
+\]
 
- \subsection{Confidence-Weighted Expert Loss}
-    
-         Each expert classifier’s contribution to the overall loss is weighted by a confidence score \( w_l \), derived from a confidence head output:
+where \(\gamma\) is the focusing parameter, which we set to \( \gamma = 2.0 \) to increase emphasis on misclassified instances (i.e., lower values of \( \hat{y}_{l,c} \)). In this way, the model prioritizes learning from instances that are harder to classify, enabling it to generalize better on such challenging cases within the hierarchical structure.
 
-   \[
-   w_l = \sigma(z_{C_l})
-   \]
+\subsection{Confidence-Weighted Expert Loss}
 
-   where \( z_{C_l} \) is the logit from the confidence head. The Weighted Loss for each level’s expert \( E_l \) is calculated as:
+In our hierarchical classifier, each expert classifier's loss contribution is modulated by a \textbf{confidence score} \( w_l \), reflecting the model's certainty at each level. This score is produced by a confidence head specific to each level, calculated as:
 
-   \[
-   L_{\text{weighted},l} = w_l \cdot L_{CE,l} + (1 - w_l) \cdot L_{KD,l}
-   \]
+\[
+w_l = \sigma(z_{C_l})
+\]
+
+where \( z_{C_l} \) is the logit from the confidence head, and \( \sigma \) represents the sigmoid activation. The Weighted Loss for each level’s expert \( E_l \) combines the cross-entropy loss \( L_{CE, l} \) and the knowledge distillation loss \( L_{KD, l} \), calculated as:
+
+\[
+L_{\text{weighted}, l} = w_l \cdot L_{CE, l} + (1 - w_l) \cdot L_{KD, l}
+\]
+
+This dynamic weighting mechanism enables the model to balance the expert classifiers' predictions with its own, emphasizing confident predictions while down-weighting uncertain ones.
+
+
  \subsection{Joint Loss for Ensemble Expert Classifiers}
     
         The total loss \( L_{\text{total}} \) for the ensemble integrates all classifiers and expert components across each hierarchical level. It is a weighted sum of the various loss components:
@@ -463,7 +480,7 @@ The hierarchical classification model for multi-level product classification is 
 
     \subsection{\textbf{Rationale for backbone: Pre-Trained BERT-of-Theseus Model}}
 
-        BERT-of-Theseus offers an efficient solution to multi-class hierarchical classification in NLP by balancing model compression with high performance. Key motivations include:
+        BERT-of-Theseus offers an efficient solution to multi-class hierarchical classification in NLP by balancing model compression with high performance. Key motivations include \cite{xu2020bert}:
 
 \begin{itemize}
     \item \textbf{Efficiency in Deployment}: The model reduces computational costs through Progressive Module Replacing, making it suitable for resource-limited environments by progressively substituting BERT’s components with compact modules.
@@ -549,7 +566,7 @@ In this approach, a multi-agentic approach was employed to tackle the hierarchic
 
     \subsection{Rationale for backbone : Llama3.1:8b-instruct-q8 Model}
 
-Llama3.1:8b-instruct-q8 is selected for its advanced language generation capabilities, extensive knowledge base, and technical efficiency, all of which are essential for multi-class hierarchical tasks.
+Llama3.1:8b-instruct-q8 is selected for its advanced language generation capabilities, extensive knowledge base, and technical efficiency, all of which are essential for multi-class hierarchical tasks. Key motivations include \cite{dubey2024llama}:
 
 \begin{itemize}
     \item \textbf{Advanced Language Generation:} Generates coherent, contextually relevant text for precise hierarchical labeling; handles nuanced class boundaries effectively; produces high-quality outputs for multi-level differentiation.
@@ -562,7 +579,7 @@ Llama3.1:8b-instruct-q8 is selected for its advanced language generation capabil
 \subsection{First Approach: Dynamic Description-Driven Agentic Classification (DDAAC)}
 
 \subsubsection{Description Generation Agent}
-The first approach began with a Description Generation Agent, responsible for expanding abbreviated product descriptions into detailed narratives. Given the cryptic nature of many labels, this agent used Llama3.1 to interpret the label's intended meaning and generate a comprehensive description. For example, “1 scrnwsh” was expanded into “A 1-liter container of windshield screen wash fluid for automobiles.” Such transformations allowed subsequent agents to operate on clear and contextually rich information, rather than vague or underspecified product labels.
+The first approach began with a Description Generation Agent, responsible for expanding abbreviated product descriptions into detailed narratives. Given the cryptic nature of many labels, this agent used Llama3.1 to interpret the label's intended meaning and generate a comprehensive description. For example, “1 scrnwsh” was expanded into “A 1-liter container of windshield screen wash fluid for automobiles” \cite{chai2020description}. Such transformations allowed subsequent agents to operate on clear and contextually rich information, rather than vague or underspecified product labels.
 
 With Llama3.1, the Description Generation Agent was able to incorporate subtle contextual hints into descriptions, greatly enhancing interpretability. However, the model occasionally struggled with highly niche or unfamiliar terms, generating descriptions that were more generalized or slightly inaccurate. This variability in handling unseen products, although relatively rare, presented challenges for downstream agents that relied on exact descriptions.
 
@@ -625,10 +642,10 @@ The Google API-Based Approach, applied in the Smart Search-Driven Agentic Classi
 Finally, the Hierarchical Option-Based Approach, tested as the Hierarchical Option-Based Agentic Classification (HOAC), showed promise on training and validation data but struggled with test data. This model achieved an item accuracy of 0.29. The approach’s hierarchical filtering strategy, while helpful, suffered from cascading errors; any misclassification at the Supergroup level propagated through the hierarchy, affecting all subsequent levels. This highlighted the importance of achieving high initial classification accuracy and emphasized the need for robust error handling to mitigate cascading failures in real-world applications.
 
 \section{Semantic Search-Driven Agentic Classification (SSDAC)}
-    In this approach, we leverage semantic search capabilities using the txtai library, specifically utilizing embeddings from the \texttt{sentence-transformers/all-MiniLM-L6-v2} model to enhance the classification of products based on their descriptions. The core idea behind this model is to represent product descriptions as high-dimensional vectors, allowing for efficient semantic searching and retrieval of relevant product categories.
+    In this approach, we leverage semantic search capabilities using the txtai library, specifically utilizing embeddings from the \texttt{sentence-transformers/all-MiniLM-L6-v2} model to enhance the classification of products based on their descriptions \cite{Mezzetti_txtai_the_all-in-one_2020}. The core idea behind this model is to represent product descriptions as high-dimensional vectors, allowing for efficient semantic searching and retrieval of relevant product categories.
 
     \subsection{Rationale for Using Sentence-Transformers/all-MiniLM-L6-v2}
-    The Sentence-Transformers/all-MiniLM-L6-v2 model is optimized for natural language processing tasks, particularly effective in encoding sentences and short paragraphs into dense vector representations. Key technical highlights include:
+    The Sentence-Transformers/all-MiniLM-L6-v2 model is optimized for natural language processing tasks, particularly effective in encoding sentences and short paragraphs into dense vector representations. Key technical highlights include \cite{yin2024study}:
     
     \begin{itemize}
         \item \textbf{High-Quality Sentence Encoding:} Maps sentences to a 384-dimensional dense vector space, capturing semantic meaning crucial for multi-class classification.
@@ -692,7 +709,8 @@ Although we aimed to achieve the best possible results, computational limitation
 \section{Acknowledgement}
 We would like to extend our heartfelt gratitude to the IndoML 2024 team (especially Rajdeep Mukherjee, Shubhadip Nag, and Soumi Das for their motivating support) for providing an exceptional experience during the datathon. We also appreciate Kaggle for offering free GPU resources, which greatly enhanced our experimentation and model training efforts. Additionally, we thank NielsenIQ for sponsoring this outstanding datathon, fostering innovation and collaboration in the field.
 
-    \begin{table}[h!]
+    \begin{table*}[h!]
+    % \begin{table}[h!]
     \RaggedRight
     \caption{Performance Metrics of Different Models.}
     \label{tab:table}
@@ -715,11 +733,11 @@ We would like to extend our heartfelt gratitude to the IndoML 2024 team (especia
     \hline
     \end{tabular}%
     }
-    \end{table}
+    \end{table*}
 
 %----------------------------------------------------------
 
-\printbibliography
+\printbibliography % For biblatex users
 
 %----------------------------------------------------------
 
