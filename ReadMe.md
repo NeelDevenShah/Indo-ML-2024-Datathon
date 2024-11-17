@@ -14,6 +14,7 @@ The goal of this project is to automate attribute-value prediction in e-commerce
 ## Table of Contents
 
 - [Key Contributions](#key-contributions)
+- [Link to the report and code of both Phases](#link-to-the-report-and-code-of-both-phases)
 - [Model Architectures and Methodologies](#model-architectures-and-methodologies)
   - [Multi-Learning Hierarchical Transformer (MLHT)](#multi-learning-hierarchical-transformer-mlht)
   - [Expert-Ensemble Multi-Learning Hierarchical Transformer (EE-MLHT)](#expert-ensemble-multi-learning-hierarchical-transformer-ee-mlht)
@@ -27,6 +28,12 @@ The goal of this project is to automate attribute-value prediction in e-commerce
 - [Acknowledgments](#acknowledgments)
 
 ---
+
+## Link to the report and code of both Phases
+
+- [Phase 1 Report](./Phase%201/Docs/ml_mavericks.pdf)
+- [Phase 2 Report](./Phase%202/Docs/ML_Mavericks_report.pdf)
+- Codes for the phase 1 and phase 2 are at [Phase 1 Code](./Phase%201/) and [Phase 2 Code](./Phase%202/)
 
 ## Key Contributions
 
