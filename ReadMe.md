@@ -6,7 +6,7 @@ The goal of this project is to automate attribute-value prediction in e-commerce
 
 ### Team and Attribution
 
-- **Team**: ML Mavericks (Top-5 as per the leadboard)
+- **Team**: ML Mavericks (Top-5 as per the leaderboard and 8th as per the official evaluation which considers the 40% of the leaderboard, 40% of novelty, and 20% of efficiency)
 - **Authors**: Neel Shah, Sneh Shah
 
 ---
